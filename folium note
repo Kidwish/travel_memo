@@ -1,0 +1,153 @@
+在 folium 中，Marker 可以通过 popup 和 tooltip 属性显式地显示内容。这些属性可以用于提供更多信息或提示用户。下面是这两个属性的详细说明和示例：
+
+1. popup
+popup 是点击标记时显示的内容，可以是字符串、HTML 或其他复杂内容。你可以使用 HTML 来格式化内容，使其更具可读性或吸引力。
+
+示例：
+python
+复制代码
+import folium
+
+# 创建 Folium 地图
+m = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
+
+# 添加带有弹出窗口的标记
+folium.Marker(
+    location=[45.5236, -122.6750],
+    popup='<strong>Portland</strong><br>这是一个美丽的城市。',
+    icon=folium.Icon(color='blue')
+).add_to(m)
+
+# 保存地图
+m.save('map_with_popup.html')
+2. tooltip
+tooltip 是鼠标悬停时显示的提示信息。它通常用于提供简短的信息，不需要点击标记。
+
+示例：
+python
+复制代码
+import folium
+
+# 创建 Folium 地图
+m = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
+
+# 添加带有工具提示的标记
+folium.Marker(
+    location=[45.5236, -122.6750],
+    popup='Portland',
+    tooltip='点击查看信息',
+    icon=folium.Icon(color='green')
+).add_to(m)
+
+# 保存地图
+m.save('map_with_tooltip.html')
+
+
+------------------------------------------------
+
+在 folium 中，popup 可以显式地显示丰富的内容，包括文本、HTML、图片等。以下是一些具体示例，展示如何使用 popup 来显示不同类型的内容。
+
+1. 显示简单文本
+python
+复制代码
+import folium
+
+# 创建 Folium 地图
+m = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
+
+# 添加简单文本的弹出窗口
+folium.Marker(
+    location=[45.5236, -122.6750],
+    popup='Portland: 这是一个美丽的城市。',
+    icon=folium.Icon(color='blue')
+).add_to(m)
+
+# 保存地图
+m.save('map_simple_popup.html')
+2. 使用 HTML 格式化内容
+你可以使用 HTML 标签来格式化弹出窗口中的内容。
+
+python
+复制代码
+# 创建 Folium 地图
+m = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
+
+# 添加 HTML 内容的弹出窗口
+folium.Marker(
+    location=[45.5236, -122.6750],
+    popup='<strong>Portland</strong><br><em>这是一个美丽的城市。</em>',
+    icon=folium.Icon(color='green')
+).add_to(m)
+
+# 保存地图
+m.save('map_html_popup.html')
+3. 显示图片
+你可以在 popup 中插入图片来增强视觉效果。
+
+python
+复制代码
+# 创建 Folium 地图
+m = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
+
+# 添加带有图片的弹出窗口
+popup_content = '''
+    <strong>Portland</strong><br>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Portland_Oregon_skyline.jpg/800px-Portland_Oregon_skyline.jpg" width="200"><br>
+    这是一个美丽的城市。
+'''
+folium.Marker(
+    location=[45.5236, -122.6750],
+    popup=popup_content,
+    icon=folium.Icon(color='orange')
+).add_to(m)
+
+# 保存地图
+m.save('map_image_popup.html')
+4. 显示链接
+你可以在 popup 中添加超链接，以便用户点击后访问外部网站。
+
+python
+复制代码
+# 创建 Folium 地图
+m = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
+
+# 添加带有链接的弹出窗口
+popup_content = '''
+    <strong>Portland</strong><br>
+    这是一个美丽的城市。<br>
+    <a href="https://en.wikipedia.org/wiki/Portland,_Oregon" target="_blank">了解更多</a>
+'''
+folium.Marker(
+    location=[45.5236, -122.6750],
+    popup=popup_content,
+    icon=folium.Icon(color='purple')
+).add_to(m)
+
+# 保存地图
+m.save('map_link_popup.html')
+5. 组合内容
+你还可以将多种内容组合在一起，提供丰富的信息。
+
+python
+复制代码
+# 创建 Folium 地图
+m = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
+
+# 组合多种内容的弹出窗口
+popup_content = '''
+    <strong>Portland</strong><br>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Portland_Oregon_skyline.jpg/800px-Portland_Oregon_skyline.jpg" width="200"><br>
+    <em>这是一个美丽的城市。</em><br>
+    <a href="https://en.wikipedia.org/wiki/Portland,_Oregon" target="_blank">了解更多</a>
+'''
+folium.Marker(
+    location=[45.5236, -122.6750],
+    popup=popup_content,
+    icon=folium.Icon(color='red')
+).add_to(m)
+
+# 保存地图
+m.save('map_combined_popup.html')
+
+
+
