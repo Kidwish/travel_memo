@@ -29,5 +29,12 @@ class DestMarker:
 
 class RawInfo:
     def __init__(self) -> None:
-        pass
+        self.trip_time = None
+        self.ticket_book_time = None
+        self.hotel_book_time = None
+        self.food = []
+        self.scenery = []
+        self.score = None
+        self.note = None
+
 
