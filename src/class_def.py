@@ -30,18 +30,28 @@ class DestMarker:
         pass
 
 
-class RawInfo():
-    def __init__(self) -> None:
-        self.trip_time = None
-        self.ticket_book_time = None
-        self.hotel_book_time = None
-        self.food = []
-        self.scenery = []
-        self.score = None
-        self.note = None
+class RawInfoDetail:
+    def __init__(self, label) -> None:
+        self.content = None
+        self.label = label
     
     def __str__(self):
-        return f"trip_time: {self.trip_time}\nticket_book_time: {self.ticket_book_time}\nhotel_book_time: {self.hotel_book_time}\nfood: {self.food}\nscenery: {self.scenery}\nscore: {self.score}\nnote: {self.note}"
+        return f"{self.label} : {self.content}"
+
+
+class RawInfo:
+    def __init__(self) -> None:
+        self.city = RawInfoDetail("去哪里:")
+        self.trip_time = RawInfoDetail("什么时候去:")
+        self.ticket_book_time = RawInfoDetail("什么时候订票:")
+        self.hotel_book_time = RawInfoDetail("什么时候订酒店:")
+        self.food = RawInfoDetail("什么东西好吃:")
+        self.scenery = RawInfoDetail("什么景色好看:")
+        self.score = RawInfoDetail("感兴趣的程度(1-10):")
+        self.note = RawInfoDetail("备注:")
+    
+    def __str__(self):
+        return f"city: {self.city}\ntrip_time: {self.trip_time}\nticket_book_time: {self.ticket_book_time}\nhotel_book_time: {self.hotel_book_time}\nfood: {self.food}\nscenery: {self.scenery}\nscore: {self.score}\nnote: {self.note}"
 
 
 
