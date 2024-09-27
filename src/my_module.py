@@ -49,7 +49,6 @@ def test():
     memo = TravelMemo(loc)
     dest = []
     marker = DestMarker()
-    raw = RawInfo()
     mapBounds = []
 
 
@@ -59,7 +58,7 @@ def test():
     windows.title("添加一个感兴趣的目的地")
     entries = {}
 
-    for _, value in vars(raw).items():
+    for _, value in vars(RawInfo()).items():
         frame = tk.Frame(windows)
         frame.pack(anchor='w', pady=5)
 
