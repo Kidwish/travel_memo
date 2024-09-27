@@ -32,10 +32,10 @@ def tk_win_close(win):
     win.destroy()
 
 def gen_marker_htmltxt(raw):
-    for detail in raw:
-        # <br>
-        pass
-    pass
+    ret = ''
+    for _, value in vars(raw).items():
+        ret += f"{value.label} : {value.content}<br>"
+    return ret
 
 
 def test():
@@ -66,19 +66,19 @@ def test():
         entries[value.label] = entry
 
 
-    close_button = tk.Button(windows, text="关闭", command=lambda: tk_win_close(windows))
-    close_button.pack(side=tk.RIGHT, padx=20, pady=20)
-    submit_button = tk.Button(windows, text="提交", command=lambda: tk_win_submit(raw, dest, entries))
-    submit_button.pack(side=tk.RIGHT, padx=20, pady=20)
+    closeButton = tk.Button(windows, text="关闭", command=lambda: tk_win_close(windows))
+    closeButton.pack(side=tk.RIGHT, padx=20, pady=20)
+    submitButton = tk.Button(windows, text="提交", command=lambda: tk_win_submit(raw, dest, entries))
+    submitButton.pack(side=tk.RIGHT, padx=20, pady=20)
 
     windows.mainloop()
 
-    print(dest)
-
-    ## GET CITY
-    newCityLoc = get_locations(raw.city.content, dfLocations)
+    # print(dest)
 
     ## ADD MARKER
+    newCityLoc = get_locations(raw.city.content, dfLocations)
+    popupContent = gen_marker_htmltxt(raw)
+    memo.add_marker(newCityLoc[0], newCityLoc[1], popupContent)
 
 
     ## SAVE MAP TO HTML
