@@ -17,7 +17,9 @@ def get_locations(srcCity, dfLoc):
     mask = dfLoc[CITY_COL].str.contains(srcCity)
     return (float(dfLoc[mask][LAT_COL].iloc[0]), float(dfLoc[mask][LON_COL].iloc[0]))
 
-def tk_win_submit(raw, dest, entries):
+
+def tk_win_submit(dest, entries):
+    raw = RawInfo()
     for _, value in vars(raw).items():
         value.content = entries[value.label].get()
 
@@ -28,8 +30,10 @@ def tk_win_submit(raw, dest, entries):
     tmpDest.raw_info = raw
     dest.append(tmpDest)
 
+
 def tk_win_close(win):
     win.destroy()
+
 
 def gen_marker_htmltxt(raw):
     ret = ''
@@ -46,6 +50,7 @@ def test():
     dest = []
     marker = DestMarker()
     raw = RawInfo()
+    mapBounds = []
 
 
     ## POPUP WINDOW
@@ -68,23 +73,25 @@ def test():
 
     closeButton = tk.Button(windows, text="关闭", command=lambda: tk_win_close(windows))
     closeButton.pack(side=tk.RIGHT, padx=20, pady=20)
-    submitButton = tk.Button(windows, text="提交", command=lambda: tk_win_submit(raw, dest, entries))
+    submitButton = tk.Button(windows, text="提交", command=lambda: tk_win_submit(dest, entries))
     submitButton.pack(side=tk.RIGHT, padx=20, pady=20)
 
     windows.mainloop()
 
-    # print(dest)
 
     ## ADD MARKER
-    newCityLoc = get_locations(raw.city.content, dfLocations)
-    popupContent = gen_marker_htmltxt(raw)
-    memo.add_marker(newCityLoc[0], newCityLoc[1], popupContent)
-
+    for destMarker in dest:
+        newCityLoc = get_locations(destMarker.raw_info.city.content, dfLocations)
+        marker.lat = newCityLoc[0]
+        marker.lon = newCityLoc[1]
+        marker.popup = gen_marker_htmltxt(destMarker.raw_info)
+        memo.add_marker(marker.lat, marker.lon, marker.popup)
+        mapBounds.append([marker.lat, marker.lon])
 
     ## SAVE MAP TO HTML
+    memo.fit_bounds(mapBounds)
     memo.save(MAP_OUTPUT_PATH)
 
-    print(raw)
 
 
 

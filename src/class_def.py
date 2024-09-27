@@ -10,6 +10,9 @@ class TravelMemo:
     def add_marker(self, lat, lon, popup):
         folium.Marker([lat, lon], popup=popup).add_to(self.map)
     
+    def fit_bounds(self, bounds):
+        self.map.fit_bounds(bounds)
+    
     def save(self, path):
         self.map.save(path)
 
@@ -27,7 +30,10 @@ class Destination:
 
 class DestMarker:
     def __init__(self) -> None:
-        pass
+        self.lat = None
+        self.lon = None
+        self.popup = None
+        self.tooltip = None
 
 
 class RawInfoDetail:
