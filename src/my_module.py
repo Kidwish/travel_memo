@@ -46,8 +46,13 @@ def tk_win_close(win):
 def gen_marker_htmltxt(raw):
     ret = ''
     for _, value in vars(raw).items():
-        ret += f"{value.label} : {value.content}<br>"
-    return ret
+        ret += f"{value.label}  {value.content}<br>"
+    CSStext = f'''<div style="width: 200px; height: auto; background-color: lightblue; padding: 10px; border-radius: 5px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); white-space: normal;">
+    <h4 style="margin: 0;">标题</h4>
+    <p style="margin: 5px 0;">{ret}</p>
+</div>
+'''
+    return CSStext
 
 
 def test():
@@ -92,6 +97,7 @@ def test():
         marker.lat = newCityLoc[0]
         marker.lon = newCityLoc[1]
         marker.popup = gen_marker_htmltxt(destMarker.raw_info)
+        print(marker.popup)
         memo.add_marker(marker.lat, marker.lon, marker.popup)
         mapBounds.append([marker.lat, marker.lon])
 

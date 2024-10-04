@@ -7,8 +7,11 @@ class TravelMemo:
             zoom_start=12,
         )
     
-    def add_marker(self, lat, lon, popup):
-        folium.Marker([lat, lon], popup=popup).add_to(self.map)
+    def add_marker(self, lat, lon, popup_content):
+        folium.Marker(
+            location=[lat, lon], 
+            popup=folium.Popup(popup_content, width=300)
+            ).add_to(self.map)
     
     def fit_bounds(self, bounds):
         self.map.fit_bounds(bounds)
