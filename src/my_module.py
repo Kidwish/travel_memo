@@ -1,4 +1,5 @@
 from src.class_def import *
+from src.amap_api.amap_req import *
 import pandas as pd
 import tkinter as tk
 from tkinter import messagebox
@@ -13,9 +14,16 @@ LAT_COL = "纬度"
 LON_COL = "经度"
 
 
-def get_locations(srcCity, dfLoc):
-    mask = dfLoc[CITY_COL].str.contains(srcCity)
-    return (float(dfLoc[mask][LAT_COL].iloc[0]), float(dfLoc[mask][LON_COL].iloc[0]))
+def get_locations(srcCity, dfLoc='amap'):
+    if isinstance(dfLoc, pd.DataFrame):
+        mask = dfLoc[CITY_COL].str.contains(srcCity)
+        if mask.any():
+            return (float(dfLoc[mask][LAT_COL].iloc[0]), float(dfLoc[mask][LON_COL].iloc[0]))
+        else:
+            return get_locations_fromAmap(srcCity)
+    else:        
+        return get_locations_fromAmap(srcCity)
+
 
 
 def tk_win_submit(dest, entries):
