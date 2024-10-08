@@ -68,7 +68,7 @@ def tk_win_close(win):
 def gen_marker_htmltxt(row, colDetail):
     ret = ''
     for column in colDetail:
-        ret += f"{column}  {getattr(row, column)}<br>"
+        ret += f"{column} ： {getattr(row, column)}<br>"
     
     CSStext = f'''<div style="width: 200px; height: auto; background-color: lightblue; padding: 10px; border-radius: 5px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); white-space: normal;">
     <h4 style="margin: 0;">标题</h4>
@@ -85,7 +85,6 @@ def test():
     loc = get_locations('北京', dfLocations)
 
     memo = TravelMemo(loc)
-    destList = []
     marker = DestMarker()
     mapBounds = []
 
