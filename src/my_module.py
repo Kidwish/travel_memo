@@ -52,13 +52,16 @@ def get_locations(srcCity, dfLoc='amap'):
 def tk_win_submit(dfDestRawInfo, entries):
     raw = RawInfo()
     for _, value in vars(raw).items():
+        if value.label == raw.city.label and entries[value.label].get().strip() == "":
+            messagebox.showwarning("警告", f"{raw.city.label} 不能为空！")
+            return
         value.content = entries[value.label].get()
 
     for entry in entries.values():
         entry.delete(0, tk.END)
 
     add_dest_info(dfDestRawInfo, raw)
-    # dest.append(raw)
+    messagebox.showinfo("成功", "目的地已成功添加！")
 
 
 def tk_win_close(win):
@@ -70,7 +73,7 @@ def gen_marker_htmltxt(row, columns):
     for col in columns:
         ret += f"{col} ： {'/' if str(getattr(row, col)) == 'nan' else getattr(row, col)}<br>"
     
-    CSStext = f'''<div style="width: 200px; height: auto; background-color: white; padding: 10px; border-radius: 5px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); white-space: normal;">
+    CSStext = f'''<div style="width: 200px; height: auto; background-color: white; white-space: normal;">
     <h4 style="margin: 0;">标题</h4>
     <p style="margin: 5px 0;">{ret}</p>
 </div>
