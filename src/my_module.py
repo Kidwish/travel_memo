@@ -65,12 +65,12 @@ def tk_win_close(win):
     win.destroy()
 
 
-def gen_marker_htmltxt(row, colDetail):
+def gen_marker_htmltxt(row, columns):
     ret = ''
-    for column in colDetail:
-        ret += f"{column} ： {getattr(row, column)}<br>"
+    for col in columns:
+        ret += f"{col} ： {'/' if str(getattr(row, col)) == 'nan' else getattr(row, col)}<br>"
     
-    CSStext = f'''<div style="width: 200px; height: auto; background-color: lightblue; padding: 10px; border-radius: 5px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); white-space: normal;">
+    CSStext = f'''<div style="width: 200px; height: auto; background-color: white; padding: 10px; border-radius: 5px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); white-space: normal;">
     <h4 style="margin: 0;">标题</h4>
     <p style="margin: 5px 0;">{ret}</p>
 </div>
