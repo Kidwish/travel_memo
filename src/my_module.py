@@ -3,7 +3,7 @@ from src.amap_api.amap_req import *
 import os
 import pandas as pd
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 
 
 DATA_PATH = r"./data/dest_raw_info.csv"
@@ -21,7 +21,8 @@ def load_dest_info():
     colDetail = []
     for _, value in vars(RawInfo()).items():
         colDetail.append(value.label)
-    
+    colCity = RawInfo().city.label
+
     # get data
     if os.path.isfile(DATA_PATH):
         dfDestRawInfo = pd.read_csv(DATA_PATH)
@@ -29,7 +30,7 @@ def load_dest_info():
     else:
         dfDestRawInfo = pd.DataFrame(columns=colDetail)
     
-    return (colDetail, dfDestRawInfo)
+    return (dfDestRawInfo, colDetail, colCity)
 
 def add_dest_info(dfDestRawInfo: pd.DataFrame, raw: RawInfo):
     rawDict = {}
@@ -67,6 +68,31 @@ def tk_win_submit(dfDestRawInfo, entries):
 def tk_win_close(win):
     win.destroy()
 
+def tk_win_open_delete_window(windows, df, col, delList):
+    dataList = df[col].tolist()
+    delete_window = tk.Toplevel(windows)
+    delete_window.title("删除目的地")
+
+    # 创建下拉选项
+    selected_value = tk.StringVar()
+    dropdown = ttk.Combobox(delete_window, textvariable=selected_value)
+    dropdown['values'] = dataList  # 设置下拉选项
+    dropdown.pack(pady=20)
+
+    def tk_win_delete_selection(delList):
+        selected = selected_value.get()
+        if selected in dataList:
+            delList.append(selected)
+            dataList.remove(selected)
+            dropdown['values'] = dataList  # 更新下拉选项
+            dropdown.set('')  # 清空下拉框
+            messagebox.showinfo("成功", f"{selected} 已成功删除！")
+        else:
+            messagebox.showwarning("警告", "请选择有效的目的地！")
+        delete_window.destroy()
+
+    delete_button = tk.Button(delete_window, text="删除", command=lambda: tk_win_delete_selection(delList))
+    delete_button.pack(pady=20)
 
 def gen_marker_htmltxt(row, columns):
     ret = ''
@@ -82,7 +108,8 @@ def gen_marker_htmltxt(row, columns):
 
 
 def test():
-    (colDetail, dfDestRawInfo) = load_dest_info()
+
+    (dfDestRawInfo, colDetail, colCity) = load_dest_info()
 
     dfLocations = pd.read_csv(LOC_PATH)
     loc = get_locations('北京', dfLocations)
@@ -90,6 +117,7 @@ def test():
     memo = TravelMemo(loc)
     marker = DestMarker()
     mapBounds = []
+    delList = []
 
 
     ## POPUP WINDOW
@@ -114,13 +142,18 @@ def test():
     closeButton.pack(side=tk.RIGHT, padx=20, pady=20)
     submitButton = tk.Button(windows, text="提交", command=lambda: tk_win_submit(dfDestRawInfo, entries))
     submitButton.pack(side=tk.RIGHT, padx=20, pady=20)
+    deleteButton = tk.Button(windows, text="删除目的地", command=lambda: tk_win_open_delete_window(windows, dfDestRawInfo, colCity, delList))
+    deleteButton.pack(side=tk.RIGHT, padx=20, pady=20)
 
     windows.mainloop()
 
+    ## UPDATE BY DELETE LIST
+    for city in delList:
+        dfDestRawInfo = dfDestRawInfo[dfDestRawInfo[colCity] != city]
 
     ## ADD MARKER
     for _, row in dfDestRawInfo.iterrows():
-        newCityLoc = get_locations(row[RawInfo().city.label], dfLocations)
+        newCityLoc = get_locations(row[colCity], dfLocations)
         marker.lat = newCityLoc[0]
         marker.lon = newCityLoc[1]
         marker.popup = gen_marker_htmltxt(row, colDetail)
