@@ -21,13 +21,13 @@ class TravelMemo:
 
 
 
-class Destination:
-    def __init__(self) -> None:
-        self.marker = DestMarker()
-        self.raw_info = RawInfo()
+# class Destination:
+#     def __init__(self) -> None:
+#         self.marker = DestMarker()
+#         self.raw_info = RawInfo()
     
-    def __str__(self):
-        return f"marker: {self.marker}\nraw_info: {self.raw_info}"
+#     def __str__(self):
+#         return f"marker: {self.marker}\nraw_info: {self.raw_info}"
 
 
 

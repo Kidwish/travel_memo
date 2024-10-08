@@ -33,10 +33,8 @@ def tk_win_submit(dest, entries):
 
     for entry in entries.values():
         entry.delete(0, tk.END)
-    
-    tmpDest = Destination()
-    tmpDest.raw_info = raw
-    dest.append(tmpDest)
+
+    dest.append(raw)
 
 
 def tk_win_close(win):
@@ -92,11 +90,11 @@ def test():
 
 
     ## ADD MARKER
-    for destMarker in dest:
-        newCityLoc = get_locations(destMarker.raw_info.city.content, dfLocations)
+    for raw_info in dest:
+        newCityLoc = get_locations(raw_info.city.content, dfLocations)
         marker.lat = newCityLoc[0]
         marker.lon = newCityLoc[1]
-        marker.popup = gen_marker_htmltxt(destMarker.raw_info)
+        marker.popup = gen_marker_htmltxt(raw_info)
         print(marker.popup)
         memo.add_marker(marker.lat, marker.lon, marker.popup)
         mapBounds.append([marker.lat, marker.lon])
